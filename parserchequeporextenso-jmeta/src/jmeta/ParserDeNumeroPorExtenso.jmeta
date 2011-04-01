@@ -1,0 +1,72 @@
+package jmeta;
+
+public parser ParserDeNumeroPorExtenso {
+
+    start: n=numero ! end { n };
+
+	numero:
+				milhoes
+		|		milhares
+		|		simples
+		;
+		
+	milhoes:
+				s=simples ."milh›es"					{ return (Integer)s * 1000000; }
+		|		."milh‹o"								{ return 1000000; }
+		;
+		
+	
+	simples: 
+				c=centena d=dezena ."e" u=unidade		{ return (Integer)c + (Integer)d + (Integer)u; } 
+		|		c=centena d=dezena u=unidade			{ return (Integer)c + (Integer)d + (Integer)u; } 
+		|		c=centena d=dezena						{ return (Integer)c + (Integer)d; } 
+		|		c=centena ."e" u=unidade				{ return (Integer)c + (Integer)u; }
+		|		centena
+		|		dezena
+		|		unidade
+		;
+		
+	milhares:
+				m=milhares s=simples					{ return (Integer)m + (Integer)s; }
+		|		s=simples milhar						{ return (Integer)s * 1000; }
+		|		milhar 
+		;
+	
+	milhar:		."mil"				{ return 1000; }
+		;
+		
+	unidade: 	."um"			{ return 1; } 
+		| 		."dois"			{ return 2; }
+		|		."tres"			{ return 3; }
+		|		."quatro"		{ return 4; }
+		|		."cinco"		{ return 5; }
+		|		."seis"			{ return 6; }
+		|		."sete"			{ return 7; }
+		|		."oito"			{ return 8; }
+		|		."nove"			{ return 9; }
+		;
+		
+	dezena: 	."dez"			{ return 10; }
+		|	 	."vinte"		{ return 20; }
+		|	 	."trinta"		{ return 30; }
+		|	 	."quarenta"		{ return 40; }
+		|	 	."cinquenta"	{ return 50; }
+		|	 	."sessenta"		{ return 60; }
+		|	 	."setenta"		{ return 70; }
+		|	 	."oitenta"		{ return 80; }
+		|	 	."noventa"		{ return 90; }
+		;
+
+	centena:	."cem"				{ return 100; }
+		|		."novecentos"		{ return 900; }
+		|		."oitocentos"		{ return 800; }
+		|		."setecentos"		{ return 700; }
+		|		."seiscentos"		{ return 600; }
+		|		."quinhentos"		{ return 500; }
+		|		."quatrocentos"		{ return 400; }
+		|		."trecentos"		{ return 300; }
+		|		."duzentos"			{ return 200; }
+		|		."cento"			{ return 100; }
+		;
+
+}

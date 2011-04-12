@@ -76,9 +76,9 @@ public class ParserDeNumeroPorExtensoTest {
 	
 	@Test
 	public void unidadeDemilhares() {
-		assertEquals(1000, parser.parse("mil"));
 		assertEquals(2000, parser.parse("dois mil"));
 		assertEquals(9000, parser.parse("nove mil"));
+		assertEquals(1000, parser.parse("mil"));
 	}
 	
 	@Test
@@ -105,10 +105,8 @@ public class ParserDeNumeroPorExtensoTest {
 
 	@Test
 	public void milhoes() {
-		parser.trace("dois milh›es duzentos vinte dois mil duzentos vinte dois");
-
-		assertEquals(2222222, parser.parse("dois milh›es duzentos vinte dois mil duzentos vinte dois"));
-		assertEquals(99123456, parser.parse("noventa e nove milh›es cento vinte tres mil quatrocentos cinquenta e seis"));
+		assertEquals(99123456, parser.parse("noventa e nove milhoes cento vinte tres mil quatrocentos cinquenta e seis"));
+		assertEquals(2222222, parser.parse("dois milhoes duzentos vinte dois mil duzentos vinte dois"));
 		assertEquals(777987654, parser.parse("setecentos setenta e sete milh›es novecentos oitenta e sete mil seiscentos cinquenta e quatro"));
 	}
 }

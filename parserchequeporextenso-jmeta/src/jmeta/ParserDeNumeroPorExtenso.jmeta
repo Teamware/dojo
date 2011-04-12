@@ -5,34 +5,36 @@ public parser ParserDeNumeroPorExtenso {
     start: n=numero ! end { n };
 
 	numero:
-				milhoes
+		|		m=milhoes m1=milhares				{ return (Integer)m + (Integer)m1; }
+		|		m=milhoes m1=milhares s=simples		{ return (Integer)m + (Integer)m1 + (Integer)s; }
+		|		m=milhoes s=simples					{ return (Integer)m + (Integer)s; }
+		|		m=milhares s=simples				{ return (Integer)m + (Integer)s; }
+		| 		milhoes
 		|		milhares
 		|		simples
 		;
-		
+
 	milhoes:
-				s=simples ."milh›es"					{ return (Integer)s * 1000000; }
-		|		."milh‹o"								{ return 1000000; }
+		 	 	."um" ."milhao"						{ return 1000000; }
+		|		s=simples ."milhoes"			{ return (Integer)s * 1000000; }
 		;
-		
-	
+				
+
+	milhares:
+				s=simples ."mil"				{ return (Integer)s * 1000; }
+		|		."mil"							{ return 1000; }
+		;
+
 	simples: 
 				c=centena d=dezena ."e" u=unidade		{ return (Integer)c + (Integer)d + (Integer)u; } 
 		|		c=centena d=dezena u=unidade			{ return (Integer)c + (Integer)d + (Integer)u; } 
 		|		c=centena d=dezena						{ return (Integer)c + (Integer)d; } 
 		|		c=centena ."e" u=unidade				{ return (Integer)c + (Integer)u; }
+		|		d=dezena ."e" u=unidade					{ return (Integer)d + (Integer)u; } 
+		|		d=dezena u=unidade						{ return (Integer)d + (Integer)u; } 
 		|		centena
 		|		dezena
 		|		unidade
-		;
-		
-	milhares:
-				m=milhares s=simples					{ return (Integer)m + (Integer)s; }
-		|		s=simples milhar						{ return (Integer)s * 1000; }
-		|		milhar 
-		;
-	
-	milhar:		."mil"				{ return 1000; }
 		;
 		
 	unidade: 	."um"			{ return 1; } 
